@@ -18,6 +18,10 @@ defmodule Attentive.MixProject do
   end
 
   defp deps do
-    []
+    [
+      { :dialyxir, "~> 1.0", only: :dev, runtime: false },
+
+      { :ex_doc, ">= 0.0.0", only: :dev, runtime: false }
+    ]
   end
 end
