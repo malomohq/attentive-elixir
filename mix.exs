@@ -7,7 +7,8 @@ defmodule Attentive.MixProject do
       version: "0.0.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      elixirc_paths: elixirc_paths(Mix.env())
     ]
   end
 
@@ -31,5 +32,13 @@ defmodule Attentive.MixProject do
 
       { :ex_doc, ">= 0.0.0", only: :dev, runtime: false }
     ]
+  end
+
+  defp elixirc_paths(:test) do
+    ["lib/", "test/"]
+  end
+
+  defp elixirc_paths(_env) do
+    ["lib/"]
   end
 end
