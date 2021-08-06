@@ -19,6 +19,14 @@ defmodule Attentive.MixProject do
 
   defp deps do
     [
+      { :hackney, "~> 1.17" },
+
+      { :jason, "~> 1.2" },
+
+      #
+      # dev
+      #
+
       { :dialyxir, "~> 1.0", only: :dev, runtime: false },
 
       { :ex_doc, ">= 0.0.0", only: :dev, runtime: false }
