@@ -1,4 +1,4 @@
-defmodule Attentive.ECommerce do
+defmodule Attentive.Events do
   alias Attentive.{ Operation }
 
   @doc """
@@ -11,6 +11,18 @@ defmodule Attentive.ECommerce do
     |> Map.put(:method, :post)
     |> Map.put(:params, params)
     |> Map.put(:path, "/events/ecommerce/add-to-cart")
+  end
+
+  @doc """
+  Make a call to this endpoint for any event-based data representing user
+  actions.
+  """
+  @spec create(Keyword.t()) :: Operation.t()
+  def create(params) do
+    %Operation{}
+    |> Map.put(:method, :post)
+    |> Map.put(:params, params)
+    |> Map.put(:path, "/events/custom")
   end
 
   @doc """
