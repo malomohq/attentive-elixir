@@ -1,4 +1,4 @@
-defmodule Attentive.EventsTest do
+defmodule Attentive.EventTest do
   use ExUnit.Case, async: true
 
   alias Attentive.{ Operation }

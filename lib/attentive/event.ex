@@ -1,4 +1,4 @@
-defmodule Attentive.Events do
+defmodule Attentive.Event do
   alias Attentive.{ Operation }
 
   @doc """
