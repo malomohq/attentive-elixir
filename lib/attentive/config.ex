@@ -11,8 +11,7 @@ defmodule Attentive.Config do
             http_protocol: String.t(),
             json_codec: module,
             retry: boolean | module,
-            retry_opts: Keyword.t(),
-            shop_token: String.t()
+            retry_opts: Keyword.t()
           }
 
   defstruct [
@@ -26,8 +25,7 @@ defmodule Attentive.Config do
     http_protocol: "https",
     json_codec: Jason,
     retry: false,
-    retry_opts: [],
-    shop_token: nil
+    retry_opts: []
   ]
 
   @spec new(Keyword.t()) :: t
