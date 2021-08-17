@@ -8,7 +8,8 @@ defmodule Attentive.MixProject do
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      package: package()
     ]
   end
 
@@ -40,5 +41,21 @@ defmodule Attentive.MixProject do
 
   defp elixirc_paths(_env) do
     ["lib/"]
+  end
+
+  defp package do
+    %{
+      description: "Elixir client for the Attentive API",
+
+      maintainers: ["Anthony Smith"],
+
+      licenses: ["MIT"],
+
+      links: %{
+        GitHub: "https://github.com/malomohq/attentive-elixir",
+
+        "Made by Malomo - Post-purhcase experiences that customers love": "https://gomalomo.com"
+      }
+    }
   end
 end
