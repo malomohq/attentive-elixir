@@ -124,6 +124,20 @@ defmodule AttentiveTest do
     assert "{\"hello\":\"world\"}" == Http.Mock.get_request_body()
   end
 
+  test "properly parses a response body that is an empty string" do
+    Http.Mock.start_link()
+
+    response = { :ok, %{ body: "", headers: [], status_code: 200 } }
+
+    Http.Mock.put_response(response)
+
+    operation = %Operation{ method: :post, params: [hello: "world"], path: "/fake" }
+
+    { :ok, %_{ body: body } } = Attentive.request(operation, http_client: Http.Mock)
+
+    assert %{} == body
+  end
+
   test "returns :ok when the request is successful" do
     Http.Mock.start_link()
 

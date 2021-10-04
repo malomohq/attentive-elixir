@@ -20,7 +20,7 @@ defmodule Attentive.Request do
 
   @spec new(Operation.t(), Config.t()) :: t
   def new(operation, config) do
-    body = Helpers.Body.encode!(operation, config)
+    body = encode_body(operation, config)
 
     headers = []
     headers = headers ++ [{ "content-type", "application/json" }]
@@ -34,6 +34,17 @@ defmodule Attentive.Request do
     |> Map.put(:method, operation.method)
     |> Map.put(:url, url)
     |> Helpers.Auth.put_api_key(config)
+  end
+
+  defp encode_body(%_{ method: method }, _config)
+      when method == :delete or method == :get do
+    ""
+  end
+
+  defp encode_body(operation, config) do
+    operation.params
+    |> Enum.into(%{})
+    |> config.json_codec.encode!()
   end
 
   @spec send(t, Config.t()) :: Attentive.response_t()
