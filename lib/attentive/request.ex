@@ -22,18 +22,15 @@ defmodule Attentive.Request do
   def new(operation, config) do
     body = encode_body!(operation, config)
 
-    headers = []
-    headers = headers ++ [{ "content-type", "application/json" }]
-    headers = headers ++ config.http_headers
-
     url = Helpers.Url.to_string(operation, config)
 
     %__MODULE__{}
     |> Map.put(:body, body)
-    |> Map.put(:headers, headers)
+    |> Map.put(:headers, config.http_headers)
     |> Map.put(:method, operation.method)
     |> Map.put(:url, url)
     |> Helpers.Auth.put_api_key(config)
+    |> Helpers.Headers.put_content_type(operation)
   end
 
   defp encode_body!(%_{ method: method }, _config)
@@ -41,10 +38,16 @@ defmodule Attentive.Request do
     ""
   end
 
-  defp encode_body!(operation, config) do
+  defp encode_body!(%_{ content_type: :json } = operation, config) do
     operation.params
     |> Enum.into(%{})
     |> config.json_codec.encode!()
+  end
+
+  defp encode_body!(%_{ content_type: :www_form } = operation, _config) do
+    operation.params
+    |> Enum.into(%{})
+    |> URI.encode_query()
   end
 
   @spec send(t, Config.t()) :: Attentive.response_t()

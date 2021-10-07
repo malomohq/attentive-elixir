@@ -82,6 +82,24 @@ defmodule AttentiveTest do
     assert { "x-custom-header", "true" } in Http.Mock.get_request_headers()
   end
 
+  test "sends the proper HTTP headers when :content_type is :www_form" do
+    Http.Mock.start_link()
+
+    response = { :ok, @ok_resp }
+
+    Http.Mock.put_response(response)
+
+    operation = %Operation{}
+    operation = Map.put(operation, :content_type, :www_form)
+    operation = Map.put(operation, :method, :get)
+    operation = Map.put(operation, :params, [hello: "world"])
+    operation = Map.put(operation, :path, "/fake")
+
+    Attentive.request(operation, http_client: Http.Mock)
+
+    assert { "content-type", "application/x-www-form-urlencoded" } in Http.Mock.get_request_headers()
+  end
+
   test "sends the proper body for GET requests" do
     Http.Mock.start_link()
 
@@ -122,6 +140,20 @@ defmodule AttentiveTest do
     Attentive.request(operation, http_client: Http.Mock)
 
     assert "{\"hello\":\"world\"}" == Http.Mock.get_request_body()
+  end
+
+  test "sends the proper body when :content_type is :www_form" do
+    Http.Mock.start_link()
+
+    response = { :ok, @ok_resp }
+
+    Http.Mock.put_response(response)
+
+    operation = %Operation{ content_type: :www_form, method: :post, params: [hello: "world"], path: "/fake" }
+
+    Attentive.request(operation, http_client: Http.Mock)
+
+    assert "hello=world" == Http.Mock.get_request_body()
   end
 
   test "properly parses a response body that is an empty string" do
