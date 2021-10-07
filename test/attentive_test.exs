@@ -75,7 +75,7 @@ defmodule AttentiveTest do
     operation = Map.put(operation, :params, [hello: "world"])
     operation = Map.put(operation, :path, "/fake")
 
-    Attentive.request(operation, api_key: "thisisfake", http_client: Http.Mock, http_headers: [{ "x-custom-header", "true" }], shop_token: "thisisfake")
+    Attentive.request(operation, api_key: "thisisfake", http_client: Http.Mock, http_headers: [{ "x-custom-header", "true" }])
 
     assert { "content-type", "application/json" } in Http.Mock.get_request_headers()
     assert { "authorization", "Bearer thisisfake" } in Http.Mock.get_request_headers()
